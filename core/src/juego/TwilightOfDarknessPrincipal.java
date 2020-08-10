@@ -23,7 +23,7 @@ public class TwilightOfDarknessPrincipal extends Game {
 	@Override
 	public void create() {
 		Utiles.archivos.leerArchivo();
-		
+		System.out.println("Hola");
 		jugador = new PersonajePrincipal(Utiles.heroeAbajoSprite);
 		jugador.crearAnimaciones();
 		entrada = new Entrada();
