@@ -41,7 +41,7 @@ public class TwilightOfDarknessPrincipal extends Game {
 		setMenuPrincipal();
 		hilo = new Hilo();
 		hilo.startHilo();
-
+		System.out.println("Hola!");
 	}
 	
 	public void setPantallaPrincipal(Mapa mapa) {
