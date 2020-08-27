@@ -111,7 +111,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="pisoObj">
-  <object id="3" x="-10.2332" y="0" width="1034.23" height="785.908"/>
+  <object id="3" x="0.276049" y="0" width="1023.17" height="768.408"/>
  </objectgroup>
  <objectgroup id="8" name="cambioMapa">
   <object id="53" x="1008.33" y="224" width="15" height="63">

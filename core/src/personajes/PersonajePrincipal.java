@@ -1,10 +1,13 @@
 package personajes;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import gestorMapas.Mapa;
@@ -12,7 +15,9 @@ import utilidades.Entrada;
 import utilidades.Recursos;
 import utilidades.Utiles;
 
-public class PersonajePrincipal extends Entidad {
+public class PersonajePrincipal extends Entidad implements Serializable {
+	
+	private static final long serialVersionUID = 7304212869270622393L;
 	
 	private int vidaActual, vidaMaxima;
 	private boolean corriendo = false;
@@ -31,8 +36,8 @@ public class PersonajePrincipal extends Entidad {
 	private int posicionJugadorTileX = (int)(posicion.x/ Recursos.ANCHO_TILE);
 	private int posicionJugadorTileY = (int)(posicion.y/ Recursos.ALTO_TILE);
 
-	public PersonajePrincipal(Sprite sprite) {
-		super(sprite);
+	public PersonajePrincipal() {
+		super(Utiles.heroeAbajoSprite);
 		rectanguloJugador = new Rectangle(getBoundingRectangle());
 	}
 	
@@ -48,10 +53,16 @@ public class PersonajePrincipal extends Entidad {
 	}
 	
 	public void dibujar(TextureRegion tr) {
-		
 		Utiles.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
-		
 		rectanguloJugador.set(posicion.x, posicion.y, getWidth(), getHeight()/2);
+	}
+	
+	public void recibirDaño() {
+		
+	}
+	
+	public void hacerDaño() {
+		
 	}
 	
 	public void crearAnimacion() {
@@ -107,6 +118,7 @@ public class PersonajePrincipal extends Entidad {
 		
 		float oldX = posicion.x, oldY = posicion.y;
 		float newX = posicion.x, newY = posicion.y;
+		enMovimiento = false;
 		
 		if(entrada.pressedShift && stamina > 0) {
 			corriendo = true;
@@ -128,7 +140,7 @@ public class PersonajePrincipal extends Entidad {
 				stamina --;
 			}
 			rectanguloJugador.setY(newY);
-			enColision = mapa.comprobarColision();
+			enColision = mapa.comprobarColision(this);
 			direccion = 1;
 			animacionActual = animacionArriba;
 			if(!enColision) {
@@ -140,7 +152,7 @@ public class PersonajePrincipal extends Entidad {
 			}
 						
 		}
-		else if(entrada.pressedA) {
+		if(entrada.pressedA) {
 			enMovimiento = true;
 			if(!corriendo) {
 				newX-= VELOCIDAD_NORMAL;
@@ -150,7 +162,7 @@ public class PersonajePrincipal extends Entidad {
 				stamina --;
 			}
 			rectanguloJugador.setX(newX);
-			enColision = mapa.comprobarColision();
+			enColision = mapa.comprobarColision(this);
 			direccion = 3;
 			animacionActual = animacionIzquierda;
 			if(!enColision) {
@@ -162,7 +174,7 @@ public class PersonajePrincipal extends Entidad {
 			}
 			
 		}
-		else if(entrada.pressedS) {
+		if(entrada.pressedS) {
 			enMovimiento = true;
 			if(!corriendo) {
 				newY-= VELOCIDAD_NORMAL;
@@ -172,7 +184,7 @@ public class PersonajePrincipal extends Entidad {
 				stamina --;
 			}
 			rectanguloJugador.setY(newY);
-			enColision = mapa.comprobarColision();
+			enColision = mapa.comprobarColision(this);
 			direccion = 4;
 			animacionActual = animacionAbajo;
 			if(!enColision) {
@@ -184,7 +196,7 @@ public class PersonajePrincipal extends Entidad {
 			}
 			
 		}
-		else if(entrada.pressedD) {
+		if(entrada.pressedD) {
 			enMovimiento = true;
 			if(!corriendo) {
 				newX+= VELOCIDAD_NORMAL;
@@ -194,7 +206,7 @@ public class PersonajePrincipal extends Entidad {
 				stamina --;
 			}
 			rectanguloJugador.setX(newX);
-			enColision = mapa.comprobarColision();
+			enColision = mapa.comprobarColision(this);
 			direccion = 2;
 			animacionActual = animacionDerecha;
 			if(!enColision) {
@@ -206,10 +218,7 @@ public class PersonajePrincipal extends Entidad {
 			}
 			
 		}
-		else {
-			enMovimiento = false;
-		}
-		
+	
 //		System.out.println("Posicion x en movimiento: "+posicion.x);
 //		System.out.println("Posicion y en movimiento: "+posicion.y);
 //		System.out.println("Stamina: "+stamina);
@@ -262,6 +271,15 @@ public class PersonajePrincipal extends Entidad {
 		
 	}
 	
+	public void mostrarColisiones() {
+		Utiles.sr.begin(ShapeType.Line);
+		
+			Utiles.sr.setColor(Color.GREEN);
+			Utiles.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().getWidth(), getRectangulo().getHeight());
+
+		Utiles.sr.end();
+	}
+	
 	public int getVidaActual() {
 		return vidaActual;
 	}
@@ -298,7 +316,7 @@ public class PersonajePrincipal extends Entidad {
 		return stamina;
 	}
 	
-	public Rectangle getRectanguloJugador() {
+	public Rectangle getRectangulo() {
 		return rectanguloJugador;
 	}
 

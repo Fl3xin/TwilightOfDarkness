@@ -1,5 +1,7 @@
 package gestorMapas;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -8,15 +10,29 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
-import utilidades.Entrada;
+import personajes.Entidad;
+import personajes.PersonajePrincipal;
+import utilidades.Recursos;
 import utilidades.Utiles;
 
-public abstract class Mapa {
+public abstract class Mapa implements Serializable {
 
+	private static final long serialVersionUID = 4589632894337340154L;
+	
 	protected TiledMap mapa;
 	protected OrthogonalTiledMapRenderer renderer;
 	protected OrthographicCamera camara;
 	protected TmxMapLoader cargadorMapa;
+	protected PersonajePrincipal jugador;
+	protected GestorMapas gestorMapas;
+	
+	public Mapa(PersonajePrincipal jugador, GestorMapas gestorMapas) {
+		this.jugador = jugador;
+		this.gestorMapas = gestorMapas;
+		cargadorMapa = new TmxMapLoader();
+		mapa = new TiledMap();
+		camara = new OrthographicCamera(Recursos.ANCHO, Recursos.ALTO);
+	}
 	
 	public void setearCamara(float xJugador, float yJugador) {
 		
@@ -29,15 +45,17 @@ public abstract class Mapa {
 	
 	public abstract void setPosicionJugador();
 	
-	public abstract void renderizar(Entrada entrada); 
+	public abstract void renderizar(); 
 	
 	public abstract void crear();
 	
-	public abstract boolean comprobarColision();
+	public abstract boolean comprobarColision(Entidad entidad);
 	
 	public abstract boolean comprobarSalidaMapa();
 	
 	public abstract Mapa cambioMapa();
+	
+	public abstract void mostrarColisiones();
 	
 	public void zoom(boolean acercar) {
 		if(acercar) {

@@ -3,13 +3,15 @@ package juego;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-import gestorMapas.CargadorMapas;
+import gestorMapas.GestorMapas;
 import gestorMapas.Mapa;
-import pantalas.CargadorPantallas;
-import pantalas.MenuOpciones;
-import pantalas.MenuPrincipal;
-import pantalas.PantallaPrincipal;
+import pantallas.CargadorPantallas;
+import pantallas.MenuOpciones;
+import pantallas.MenuPrincipal;
+import pantallas.PantallaPrincipal;
 import personajes.PersonajePrincipal;
+import utilidades.Archivos;
+import utilidades.DatosJuego;
 import utilidades.Entrada;
 import utilidades.Hilo;
 import utilidades.Utiles;
@@ -18,21 +20,28 @@ public class TwilightOfDarknessPrincipal extends Game {
 	
 	private Entrada entrada;
 	private PersonajePrincipal jugador;
-	Hilo hilo;
+	private Hilo hilo;
+	private GestorMapas gestorMapas;
+	public Archivos archivos;
+	private DatosJuego datosJuego;
 	
 	@Override
 	public void create() {
-		Utiles.archivos.leerArchivo();
 		
-		jugador = new PersonajePrincipal(Utiles.heroeAbajoSprite);
+		datosJuego = new DatosJuego(this);
+		archivos = new Archivos(datosJuego);
+		//archivos.cargarPartida();
+		
+		gestorMapas = new GestorMapas();
+		jugador = new PersonajePrincipal();
 		jugador.crearAnimaciones();
 		entrada = new Entrada();
 		Gdx.input.setInputProcessor(entrada);
-		CargadorMapas.crearMapas(jugador);
+		gestorMapas.crearMapas(jugador);
 		setMenuPrincipal();
 		hilo = new Hilo();
 		hilo.startHilo();
-		
+
 	}
 	
 	public void setPantallaPrincipal(Mapa mapa) {
@@ -47,7 +56,7 @@ public class TwilightOfDarknessPrincipal extends Game {
 	
 	
 	public void setMenuPrincipal() {
-		CargadorPantallas.menuPrincipal = new MenuPrincipal(entrada, this);
+		CargadorPantallas.menuPrincipal = new MenuPrincipal(entrada, this, gestorMapas);
 		setScreen(CargadorPantallas.menuPrincipal);
 	}
 	

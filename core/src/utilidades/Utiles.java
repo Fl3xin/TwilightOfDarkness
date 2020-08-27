@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class Utiles {
-
+	
 	public static SpriteBatch batch = new SpriteBatch();
 	
 	public static ShapeRenderer sr = new ShapeRenderer();
-	
-	public static Archivos archivos = new Archivos("C:/ArchivoJava","PartidaGuardada.txt");
 	
 	public static int mapaIndicadorPos = 0;
 //	public static Texture personajePrincipalTextura = new Texture("personajes/Ladron/thief.png");
@@ -45,6 +43,21 @@ public abstract class Utiles {
 	
 	public static Texture heroeIzquierda = new Texture("personajes/heroe/heroeQuietoIzquierda.png");
 	public static Sprite heroeIzquierdaSprite = new Sprite(heroeIzquierda);
+	
+	public static Texture zombie = new Texture("personajes/zombie/skeleton.png");
+	public static Sprite zombieSprite = new Sprite(zombie);
+	
+	public static Texture alienAbajo = new Texture("enemigos/alien/alienQuietoAbajo.png");
+	public static Sprite alienAbajoSprite = new Sprite(alienAbajo);
+	
+	public static Texture alienArriba = new Texture("enemigos/alien/alienQuietoArriba.png");
+	public static Sprite alienArribaSprite = new Sprite(alienArriba);
+	
+	public static Texture alienDerecha = new Texture("enemigos/alien/alienQuietoDerecha.png");
+	public static Sprite alienDerechaSprite = new Sprite(alienDerecha);
+	
+	public static Texture alienIzquierda = new Texture("enemigos/alien/alienQuietoIzquierda.png");
+	public static Sprite alienIzquierdaSprite = new Sprite(alienIzquierda);
 	
 	public static Random r = new Random();
 }

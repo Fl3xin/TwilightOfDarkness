@@ -1,116 +1,67 @@
 package utilidades;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Archivos {
 
-	File archivo;
-	String ruta, rutaCompleta;
-	String nombreArchivo;
+	private File archivo;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
+	public DatosJuego datosJuego;
 	
-	public Archivos(String ruta, String nombreArchivo) {
+	public Archivos(DatosJuego datosJuego) {
 		
-		archivo = new File(ruta,nombreArchivo);
+		this.datosJuego = datosJuego;
 		
-		this.ruta = ruta;
-		this.nombreArchivo = nombreArchivo;
-		
+		archivo = new File("C:\\Users\\messi\\Desktop","ttd-savegame.dat");
 		try {
-			if(archivo.createNewFile()) {
-				System.out.println("Archivo creado correctamente");
-			}else {
-				System.out.println("Archivo ya creado");
+			input = new ObjectInputStream(new FileInputStream(archivo));
+			cargarPartida();
+		} catch (Exception e) {
+			try {
+				output = new ObjectOutputStream(new FileOutputStream(archivo));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
+		} 
+	}
+	
+	public void guardarPartida() {
+		try {
+			input.close();
+			output.writeObject(datosJuego);
 		} catch (IOException e) {
-			System.out.println("No se ha podido crear el archivo");
 			e.printStackTrace();
 		}
-			
 	}
 	
-	public void escribirArchivo() {
-		FileWriter fichero = null;
-		PrintWriter pw = null;
-		
+	public void cargarPartida() {
 		try {
-			fichero = new FileWriter("C:/ArchivoJava/PartidaGuardada.txt");
-			pw = new PrintWriter(fichero);
-			
-			for (int i = 0; i < 1; i++) {
-				pw.println(Recursos.horasJugadas);
-				pw.println(Recursos.minutosJugados);
-				pw.println(Recursos.posJugadorX);
-				pw.println(Recursos.posJugadorY);
+			if(archivo!= null) {
+				datosJuego = (DatosJuego) input.readObject();
 			}
-			
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(fichero != null) {
-					fichero.close();
-					pw.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
 	}
 	
-	public void leerArchivo() {
-		FileReader fileReader = null;
-		BufferedReader bufferedReader = null;
-		int cont = 0;
-		int[] tiempo = new int[2];
-		int[] posJugador = new int[2];
+	public void dispose() {
 		try {
-			archivo = new File(ruta,nombreArchivo);
-			fileReader = new FileReader(archivo);
-			bufferedReader = new BufferedReader(fileReader);
-			
-			String linea;
-			while((linea = bufferedReader.readLine())!= null) {
-				System.out.println(linea);
-				
-				if(cont == 0) {
-					tiempo[cont] = Integer.parseInt(linea);
-					Recursos.horasJugadas = tiempo[cont];
-				}
-				if(cont == 1) {
-					tiempo[cont] = Integer.parseInt(linea);
-					Recursos.minutosJugados = tiempo[cont];
-				}
-				if(cont == 2) {
-					posJugador[cont-2] = Integer.parseInt(linea);
-					Recursos.posJugadorX = posJugador[cont-2];
-				}
-				if(cont == 3) {
-					posJugador[cont-2] = Integer.parseInt(linea);
-					Recursos.posJugadorY = posJugador[cont-2];
-				}
-				
-				cont++;
-			}
-			
-		} catch (Exception e) {
+			input.close();
+			output.close();
+		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(fileReader != null) {
-					fileReader.close();
-					bufferedReader.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
-		
 	}
 	
 }
