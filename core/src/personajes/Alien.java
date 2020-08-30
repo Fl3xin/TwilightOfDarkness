@@ -26,6 +26,7 @@ public class Alien extends Enemigo implements Movible{
 	private int correccionAncho = 25, correccionAlto = 120;
 	private String direccionAlien = "", posicionFinal = "";
 	private boolean enMovimiento, atacando, enColision;
+	private int daño = 10;
 	
 	public Alien() {
 		super(Utiles.alienAbajoSprite);
@@ -69,10 +70,8 @@ public class Alien extends Enemigo implements Movible{
 	}
 
 	@Override
-	public void hacerDaño() {
-		//TODO Provocar daño al jugador
-		
-		
+	public void hacerDaño(PersonajePrincipal jugador) {
+		jugador.recibirDaño(daño);
 	}
 
 	@Override
@@ -148,21 +147,19 @@ public class Alien extends Enemigo implements Movible{
 	public void movimiento() {
 		Utiles.batch.begin();
 		if(enMovimiento || atacando) {
+			animar(true);
 			System.out.println(direccionAlien);
+			
 			if(direccionAlien.equals("izquierda")) {
-				animar(true);
 				posicionFinal = "izquierda";
 			}
 			if(direccionAlien.equals("derecha")) {
-				animar(true);
 				posicionFinal = "derecha";
 			}
 			if(direccionAlien.equals("abajo")) {
-				animar(true);
 				posicionFinal = "abajo";
 			}
 			if(direccionAlien.equals("arriba")) {
-				animar(true);
 				posicionFinal = "arriba";
 			}
 		}else if(!enMovimiento && !atacando){
@@ -197,6 +194,7 @@ public class Alien extends Enemigo implements Movible{
 			
 			if(rectanguloAlien.overlaps(jugador.getRectangulo())) {
 				atacando = true;
+				hacerDaño(jugador);
 				enMovimiento = false;
 				if(direccionAlien.equals("izquierda")) {
 					animacionActual = animacionAtaqueIzquierda;
@@ -212,6 +210,7 @@ public class Alien extends Enemigo implements Movible{
 				}
 			}else {
 				enMovimiento = true;
+				atacando = false;
 				if(jugador.getPosicion().x < this.posicion.x) {
 					animacionActual = animacionIzquierda;
 					direccionAlien = "izquierda";

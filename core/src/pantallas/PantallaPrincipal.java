@@ -57,7 +57,7 @@ public class PantallaPrincipal implements Screen {
 //		System.out.println("X Jugador: "+jugador.getPosicion().x);
 //		System.out.println("Y Jugador: "+jugador.getPosicion().y);
 		controlarSalida();
-		hud.mostrarBarraEnergia();
+		hud.mostrarStats();
 	}
 	
 	public void cambiarMapa(Mapa mapa) {

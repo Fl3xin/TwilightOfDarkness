@@ -19,7 +19,8 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 	
 	private static final long serialVersionUID = 7304212869270622393L;
 	
-	private int vidaActual, vidaMaxima;
+	private float vidaMaxima = 100;
+	private float vidaActual = vidaMaxima;
 	private boolean corriendo = false;
 	private int staminaMax = 300;
 	private int stamina = staminaMax;
@@ -35,6 +36,7 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 	private int correccionAlto = 72, correccionAncho = 223;
 	private int posicionJugadorTileX = (int)(posicion.x/ Recursos.ANCHO_TILE);
 	private int posicionJugadorTileY = (int)(posicion.y/ Recursos.ALTO_TILE);
+	private int reduccionDaño = 45;
 
 	public PersonajePrincipal() {
 		super(Utiles.heroeAbajoSprite);
@@ -57,8 +59,12 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 		rectanguloJugador.set(posicion.x, posicion.y, getWidth(), getHeight()/2);
 	}
 	
-	public void recibirDaño() {
-		
+	public void recibirDaño(float cantidad) {
+		this.vidaActual-=(cantidad/reduccionDaño);
+		if(this.vidaActual < 0) {
+			vidaActual = 0;
+		}
+		System.out.println("Vida actual: "+this.vidaActual);
 	}
 	
 	public void hacerDaño() {
@@ -280,11 +286,11 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 		Utiles.sr.end();
 	}
 	
-	public int getVidaActual() {
+	public float getVidaActual() {
 		return vidaActual;
 	}
 	
-	public int getVidaMaxima() {
+	public float getVidaMaxima() {
 		return vidaMaxima;
 	}
 	

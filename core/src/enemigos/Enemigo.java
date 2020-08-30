@@ -3,6 +3,7 @@ package enemigos;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import personajes.Entidad;
+import personajes.PersonajePrincipal;
 
 public abstract class Enemigo extends Entidad {
 
@@ -12,7 +13,7 @@ public abstract class Enemigo extends Entidad {
 		super(sprite);
 	}
 
-	public abstract void hacerDaño();
+	public abstract void hacerDaño(PersonajePrincipal jugador);
 	
 	public abstract void recibirDaño(int cantidad);
 	
