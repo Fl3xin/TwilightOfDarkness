@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import enemigos.Enemigo;
 import gestorMapas.GestorMapas;
 import gestorMapas.Mapa;
 import personajes.Alien;
@@ -54,7 +55,7 @@ public class Dungeon1 extends Mapa{
 	public void crear() {
 		
 		mapa = cargadorMapa.load("mapas/dungeons/dungeon1/dungeon1.tmx");
-		obtenerEnemigos();
+		crearEnemigos();
 		crearCapas();
 		renderer = new OrthogonalTiledMapRenderer(mapa);
 		camara.update();
@@ -94,7 +95,7 @@ public class Dungeon1 extends Mapa{
 		Utiles.sr.end();
 	}
 	
-	public void obtenerEnemigos() {
+	public void crearEnemigos() {
 		
 		aliensObj = new MapObjects();
 		aliensObj = mapa.getLayers().get("aliens").getObjects();
@@ -109,6 +110,14 @@ public class Dungeon1 extends Mapa{
 			aliens[i].getCirculoAlien().setY((float) aliensObj.get(i).getProperties().get("y"));
 		}
 		
+	}
+	
+	public Enemigo obtenerEnemigoObjetivo() {
+		Enemigo enemigo = null;
+		
+		
+		
+		return enemigo;
 	}
 	
 	@Override

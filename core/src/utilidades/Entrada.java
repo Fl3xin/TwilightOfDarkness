@@ -14,6 +14,7 @@ public class Entrada implements InputProcessor{
 	public boolean pressedMenos;
 	public boolean pressedShift;
 	public boolean pressedEsc;
+	public boolean pressedClickIzq, pressedClickDer;
 	public boolean zoom;
 	
 	@Override
@@ -96,14 +97,34 @@ public class Entrada implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		switch(button) {
+		
+		case Input.Buttons.LEFT:
+			pressedClickIzq = true;
+			return true;
+		case Input.Buttons.RIGHT:
+			pressedClickDer = true;
+			return true;
+		default:
+			return false;
+			
+		}
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		switch(button) {
+		
+		case Input.Buttons.LEFT:
+			pressedClickIzq = false;
+			return true;
+		case Input.Buttons.RIGHT:
+			pressedClickDer = false;
+			return true;
+		default:
+			return false;
+		
+		}
 	}
 
 	@Override

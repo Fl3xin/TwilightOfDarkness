@@ -76,8 +76,6 @@ public class Alien extends Enemigo implements Movible{
 
 	@Override
 	public void recibirDaño(int cantidad) {
-		//TODO Recibir daño del jugador
-		
 		
 	}
 	

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
+import enemigos.Enemigo;
 import gestorMapas.Mapa;
 import utilidades.Entrada;
 import utilidades.Recursos;
@@ -37,6 +38,7 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 	private int posicionJugadorTileX = (int)(posicion.x/ Recursos.ANCHO_TILE);
 	private int posicionJugadorTileY = (int)(posicion.y/ Recursos.ALTO_TILE);
 	private int reduccionDaño = 45;
+	private int daño = 20;
 
 	public PersonajePrincipal() {
 		super(Utiles.heroeAbajoSprite);
@@ -64,11 +66,10 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 		if(this.vidaActual < 0) {
 			vidaActual = 0;
 		}
-		System.out.println("Vida actual: "+this.vidaActual);
 	}
 	
-	public void hacerDaño() {
-		
+	public void hacerDaño(Enemigo enemigo) {
+		enemigo.recibirDaño(daño);
 	}
 	
 	public void crearAnimacion() {
@@ -125,6 +126,10 @@ public class PersonajePrincipal extends Entidad implements Serializable {
 		float oldX = posicion.x, oldY = posicion.y;
 		float newX = posicion.x, newY = posicion.y;
 		enMovimiento = false;
+		
+		if(entrada.pressedClickIzq) {
+			System.out.println("Danio");
+		}
 		
 		if(entrada.pressedShift && stamina > 0) {
 			corriendo = true;
