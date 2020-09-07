@@ -13,14 +13,11 @@ import personajes.PersonajePrincipal;
 import utilidades.Archivos;
 import utilidades.DatosJuego;
 import utilidades.Entrada;
-import utilidades.Hilo;
-import utilidades.Utiles;
 
 public class TwilightOfDarknessPrincipal extends Game {
 	
 	private Entrada entrada;
 	private PersonajePrincipal jugador;
-	private Hilo hilo;
 	private GestorMapas gestorMapas;
 	public Archivos archivos;
 	private DatosJuego datosJuego;
@@ -32,13 +29,10 @@ public class TwilightOfDarknessPrincipal extends Game {
 		//archivos.cargarPartida();
 		gestorMapas = new GestorMapas();
 		jugador = new PersonajePrincipal();
-		jugador.crearAnimaciones();
 		entrada = new Entrada();
 		Gdx.input.setInputProcessor(entrada);
 		gestorMapas.crearMapas(jugador);
 		setMenuPrincipal();
-		hilo = new Hilo();
-		hilo.startHilo();
 	}
 	
 	public void setPantallaPrincipal(Mapa mapa) {

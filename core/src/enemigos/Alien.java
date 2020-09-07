@@ -1,4 +1,4 @@
-package personajes;
+package enemigos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
-import enemigos.Enemigo;
 import gestorMapas.Mapa;
 import interfaces.Movible;
+import personajes.PersonajePrincipal;
 import utilidades.Utiles;
 
 public class Alien extends Enemigo implements Movible{
@@ -76,7 +76,7 @@ public class Alien extends Enemigo implements Movible{
 
 	@Override
 	public void recibirDaño(int cantidad) {
-		
+		this.vida -= cantidad;
 	}
 	
 	public void crearAnimacion() {
@@ -134,7 +134,6 @@ public class Alien extends Enemigo implements Movible{
 	
 	TextureRegion frameActual;
 	public void animar(boolean animar) {
-		System.out.println("En movimiento: "+enMovimiento);
 		if(animar) {
 			tiempoAni += Gdx.graphics.getDeltaTime();
 			frameActual = animacionActual.getKeyFrame(tiempoAni, true);
@@ -146,8 +145,7 @@ public class Alien extends Enemigo implements Movible{
 		Utiles.batch.begin();
 		if(enMovimiento || atacando) {
 			animar(true);
-			System.out.println(direccionAlien);
-			
+			System.out.println("Direccion alien: "+direccionAlien);
 			if(direccionAlien.equals("izquierda")) {
 				posicionFinal = "izquierda";
 			}
@@ -191,6 +189,7 @@ public class Alien extends Enemigo implements Movible{
 			enMovimiento = true;
 			
 			if(rectanguloAlien.overlaps(jugador.getRectangulo())) {
+				
 				atacando = true;
 				hacerDaño(jugador);
 				enMovimiento = false;

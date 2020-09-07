@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import enemigos.Alien;
 import enemigos.Enemigo;
 import gestorMapas.GestorMapas;
 import gestorMapas.Mapa;
-import personajes.Alien;
 import personajes.Entidad;
 import personajes.PersonajePrincipal;
 import utilidades.Utiles;
@@ -112,13 +112,18 @@ public class Dungeon1 extends Mapa{
 		
 	}
 	
-	public Enemigo obtenerEnemigoObjetivo() {
-		Enemigo enemigo = null;
-		
-		
-		
-		return enemigo;
-	}
+//	@Override
+//	public boolean comprobarColisionEnemigos(PersonajePrincipal jugador) {
+//		boolean colision = false;
+//			
+//		for (int i = 0; i < aliens.length; i++) {
+//			if(Intersector.overlaps(jugador.getRectangulo(), aliens[i].getRectangulo())) {
+//				colision = true;
+//			}
+//		}
+//		
+//		return colision;
+//	}
 	
 	@Override
 	public boolean comprobarColision(Entidad entidad) {
@@ -129,12 +134,6 @@ public class Dungeon1 extends Mapa{
 				colision = true;
 			}
 		}
-		
-//		for (int i = 0; i < aliens.length; i++) {
-//			if(Intersector.overlaps(entidad.getRectangulo(), aliens[i].getRectangulo())) {
-//				colision = true;
-//			}
-//		}
 		
 		if(rectanguloPiso.contains(entidad.getRectangulo())) {
 			//Todo bien

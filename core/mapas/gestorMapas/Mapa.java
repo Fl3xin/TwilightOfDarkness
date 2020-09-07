@@ -1,7 +1,5 @@
 package gestorMapas;
 
-import java.io.Serializable;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -15,9 +13,7 @@ import personajes.PersonajePrincipal;
 import utilidades.Recursos;
 import utilidades.Utiles;
 
-public abstract class Mapa implements Serializable {
-
-	private static final long serialVersionUID = 4589632894337340154L;
+public abstract class Mapa {
 	
 	protected TiledMap mapa;
 	protected OrthogonalTiledMapRenderer renderer;
@@ -50,6 +46,8 @@ public abstract class Mapa implements Serializable {
 	public abstract void crear();
 	
 	public abstract boolean comprobarColision(Entidad entidad);
+	
+//	public abstract boolean comprobarColisionEnemigos(PersonajePrincipal jugador);
 	
 	public abstract boolean comprobarSalidaMapa();
 	
