@@ -25,7 +25,7 @@ public class TwilightOfDarknessPrincipal extends Game {
 	@Override
 	public void create() {
 		datosJuego = new DatosJuego(this);
-		archivos = new Archivos(datosJuego);
+		//archivos = new Archivos(datosJuego);
 		//archivos.cargarPartida();
 		gestorMapas = new GestorMapas();
 		jugador = new PersonajePrincipal();

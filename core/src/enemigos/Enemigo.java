@@ -13,9 +13,9 @@ public abstract class Enemigo extends Entidad {
 		super(sprite);
 	}
 
-	public abstract void hacerDaño(PersonajePrincipal jugador);
+	public abstract void hacerdanio(PersonajePrincipal jugador);
 	
-	public abstract void recibirDaño(int cantidad);
+	public abstract void recibirdanio(int cantidad);
 	
 	public int getVida() {
 		return vida;

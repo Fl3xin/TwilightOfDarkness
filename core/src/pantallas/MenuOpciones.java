@@ -9,7 +9,7 @@ import utilidades.Entrada;
 import utilidades.Imagen;
 import utilidades.Recursos;
 import utilidades.Render;
-import utilidades.Utiles;
+import utilidades.UtilHerramientas;
 
 
 public class MenuOpciones implements Screen {
@@ -43,7 +43,7 @@ public class MenuOpciones implements Screen {
 	@Override
 	public void show() {
 		
-		if(Utiles.r.nextInt(100) > 98) {
+		if(UtilHerramientas.r.nextInt(100) > 98) {
 			fondo = new Imagen(Recursos.FONDO);
 			fondoTextura = fondo.getTexture();
 		}else{
@@ -74,12 +74,12 @@ public class MenuOpciones implements Screen {
 		
 		Render.limpiarPantalla();
 		
-		Utiles.batch.begin();
+		UtilHerramientas.batch.begin();
 		
-			Utiles.batch.draw(fondoTextura, 0, 0, Recursos.ANCHO, Recursos.ALTO);
-			Utiles.batch.draw(menuOpcionesTex, menuX, menuY);
+			UtilHerramientas.batch.draw(fondoTextura, 0, 0, Recursos.ANCHO, Recursos.ALTO);
+			UtilHerramientas.batch.draw(menuOpcionesTex, menuX, menuY);
 			
-			Utiles.batch.draw(volverMenuTex, volverX, volverY - 200);
+			UtilHerramientas.batch.draw(volverMenuTex, volverX, volverY - 200);
 			
 			if(marcado) {
 				if(Gdx.input.isTouched()){
@@ -89,7 +89,7 @@ public class MenuOpciones implements Screen {
 			}
 			
 
-		Utiles.batch.end();
+		UtilHerramientas.batch.end();
 		
 	}
 	

@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import gestorMapas.Mapa;
 import interfaces.Movible;
 import personajes.PersonajePrincipal;
-import utilidades.Utiles;
+import utilidades.UtilHerramientas;
 
 public class Alien extends Enemigo implements Movible{
 
@@ -26,10 +26,10 @@ public class Alien extends Enemigo implements Movible{
 	private int correccionAncho = 25, correccionAlto = 120;
 	private String direccionAlien = "", posicionFinal = "";
 	private boolean enMovimiento, atacando, enColision;
-	private int daño = 10;
+	private int danio = 10;
 	
 	public Alien() {
-		super(Utiles.alienAbajoSprite);
+		super(UtilHerramientas.alienAbajoSprite);
 		rectanguloAlien = new Rectangle(getBoundingRectangle());
 		circuloAlien = new Circle(this.posicion.x, this.posicion.y, 150);
 		crearAnimacion();
@@ -41,7 +41,7 @@ public class Alien extends Enemigo implements Movible{
 	public void dibujar(Texture textura) {
 		
 		this.setTexture(textura);
-		this.draw(Utiles.batch);
+		this.draw(UtilHerramientas.batch);
 		
 		this.setX(this.posicion.x);
 		this.setY(this.posicion.y);
@@ -52,30 +52,30 @@ public class Alien extends Enemigo implements Movible{
 		
 		int anchoVida = (vida*100)/vidaMax;
 		
-		Utiles.sr.setAutoShapeType(true);
-		Utiles.sr.begin();
-			Utiles.sr.set(ShapeType.Line);
-			Utiles.sr.setColor(Color.BLACK);
-			Utiles.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), 100*0.5f, 10);
+		UtilHerramientas.sr.setAutoShapeType(true);
+		UtilHerramientas.sr.begin();
+			UtilHerramientas.sr.set(ShapeType.Line);
+			UtilHerramientas.sr.setColor(Color.BLACK);
+			UtilHerramientas.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), 100*0.5f, 10);
 			
-			Utiles.sr.set(ShapeType.Filled);
-			Utiles.sr.setColor(Color.GREEN);
-			Utiles.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), anchoVida*0.5f, 10);
-		Utiles.sr.end();
+			UtilHerramientas.sr.set(ShapeType.Filled);
+			UtilHerramientas.sr.setColor(Color.GREEN);
+			UtilHerramientas.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), anchoVida*0.5f, 10);
+		UtilHerramientas.sr.end();
 	}
 	
 	@Override
 	public void dibujar(TextureRegion tr) {
-		Utiles.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
+		UtilHerramientas.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
 	}
 
 	@Override
-	public void hacerDaño(PersonajePrincipal jugador) {
-		jugador.recibirDaño(daño);
+	public void hacerdanio(PersonajePrincipal jugador) {
+		jugador.recibirdanio(danio);
 	}
 
 	@Override
-	public void recibirDaño(int cantidad) {
+	public void recibirdanio(int cantidad) {
 		this.vida -= cantidad;
 	}
 	
@@ -142,7 +142,7 @@ public class Alien extends Enemigo implements Movible{
 	}
 	
 	public void movimiento() {
-		Utiles.batch.begin();
+		UtilHerramientas.batch.begin();
 		if(enMovimiento || atacando) {
 			animar(true);
 			System.out.println("Direccion alien: "+direccionAlien);
@@ -161,22 +161,22 @@ public class Alien extends Enemigo implements Movible{
 		}else if(!enMovimiento && !atacando){
 			animar(false);
 			if(posicionFinal.equals("")) {
-				dibujar(Utiles.alienAbajo);
+				dibujar(UtilHerramientas.alienAbajo);
 			}
 			if(posicionFinal.equals("izquierda")) {
-				dibujar(Utiles.alienIzquierda);
+				dibujar(UtilHerramientas.alienIzquierda);
 			}
 			if(posicionFinal.equals("abajo")) {
-				dibujar(Utiles.alienAbajo);
+				dibujar(UtilHerramientas.alienAbajo);
 			}
 			if(posicionFinal.equals("derecha")) {
-				dibujar(Utiles.alienDerecha);
+				dibujar(UtilHerramientas.alienDerecha);
 			}
 			if(posicionFinal.equals("arriba")) {
-				dibujar(Utiles.alienArriba);
+				dibujar(UtilHerramientas.alienArriba);
 			}
 		}
-		Utiles.batch.end();
+		UtilHerramientas.batch.end();
 	}
 	
 	public void comportamiento(PersonajePrincipal jugador, Mapa mapa) {
@@ -191,7 +191,7 @@ public class Alien extends Enemigo implements Movible{
 			if(rectanguloAlien.overlaps(jugador.getRectangulo())) {
 				
 				atacando = true;
-				hacerDaño(jugador);
+				hacerdanio(jugador);
 				enMovimiento = false;
 				if(direccionAlien.equals("izquierda")) {
 					animacionActual = animacionAtaqueIzquierda;
@@ -284,8 +284,8 @@ public class Alien extends Enemigo implements Movible{
 	}
 
 	public void mostrarColisiones() {
-		Utiles.sr.circle(getCirculoAlien().x + (getWidth()/2), getCirculoAlien().y + (getHeight()/2), getCirculoAlien().radius);
-		Utiles.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().width, getRectangulo().height);
+		UtilHerramientas.sr.circle(getCirculoAlien().x + (getWidth()/2), getCirculoAlien().y + (getHeight()/2), getCirculoAlien().radius);
+		UtilHerramientas.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().width, getRectangulo().height);
 	}
 	
 	public Circle getCirculoAlien() {

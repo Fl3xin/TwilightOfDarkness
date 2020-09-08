@@ -8,13 +8,12 @@ import utilidades.Entrada;
 import utilidades.Hud;
 import utilidades.Recursos;
 import utilidades.Render;
-import utilidades.Utiles;
+import utilidades.UtilHerramientas;
 
 public class PantallaPrincipal implements Screen {
 	
 	private PersonajePrincipal jugador;
 	private Entrada entrada;
-	private TwilightOfDarknessPrincipal game;
 	private Mapa mapa;
 	private Mapa mapaSiguiente;
 	private boolean cambiarMapa;
@@ -24,7 +23,6 @@ public class PantallaPrincipal implements Screen {
 		this.jugador = jugador;
 		this.mapa = mapa;
 		this.entrada = entrada;
-		this.game = game;
 	}
 	
 	@Override
@@ -39,7 +37,7 @@ public class PantallaPrincipal implements Screen {
 		actualizar();
 		
 		Render.limpiarPantalla();
-		Utiles.sr.setProjectionMatrix(mapa.getCamara().combined);
+		UtilHerramientas.sr.setProjectionMatrix(mapa.getCamara().combined);
 		
 		mapa.setearCamara(jugador.getPosicion().x, jugador.getPosicion().y);
 		mapa.renderizar();
@@ -104,9 +102,9 @@ public class PantallaPrincipal implements Screen {
 
 	@Override
 	public void dispose() {
-		Utiles.batch.dispose();
+		UtilHerramientas.batch.dispose();
 		mapa.dispose();
-		Utiles.sr.dispose();
+		UtilHerramientas.sr.dispose();
 	}
 
 }

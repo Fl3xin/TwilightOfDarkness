@@ -10,7 +10,7 @@ import utilidades.Entrada;
 import utilidades.Imagen;
 import utilidades.Recursos;
 import utilidades.Render;
-import utilidades.Utiles;
+import utilidades.UtilHerramientas;
 
 
 public class MenuPrincipal implements Screen {
@@ -46,7 +46,7 @@ public class MenuPrincipal implements Screen {
 	@Override
 	public void show() {
 		
-		if(Utiles.r.nextInt(100) > 98) {
+		if(UtilHerramientas.r.nextInt(100) > 98) {
 			fondo = new Imagen(Recursos.FONDO);
 			fondoTextura = fondo.getTexture();
 		}else{
@@ -94,13 +94,13 @@ public class MenuPrincipal implements Screen {
 		
 		Render.limpiarPantalla();
 		
-		Utiles.batch.begin();
-			Utiles.batch.draw(fondoTextura, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		UtilHerramientas.batch.begin();
+			UtilHerramientas.batch.draw(fondoTextura, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			
 			if(!marcado) {
-				Utiles.batch.draw(botonJugarTex, botonJugarX, botonJugarY);
+				UtilHerramientas.batch.draw(botonJugarTex, botonJugarX, botonJugarY);
 			}else {
-				Utiles.batch.draw(botonJugarMarTex, botonJugarX, botonJugarY);
+				UtilHerramientas.batch.draw(botonJugarMarTex, botonJugarX, botonJugarY);
 				
 				// REVISAR !!!!!
 				if(Gdx.input.isTouched() || entrada.pressedEnter){
@@ -114,9 +114,9 @@ public class MenuPrincipal implements Screen {
 			}
 			
 			if(!marcadoOpc) {
-				Utiles.batch.draw(botonOpcionTex, botonJugarX, botonJugarY - 70);
+				UtilHerramientas.batch.draw(botonOpcionTex, botonJugarX, botonJugarY - 70);
 			}else {
-				Utiles.batch.draw(botonOpcionMarTex, botonJugarX, botonJugarY - 70);
+				UtilHerramientas.batch.draw(botonOpcionMarTex, botonJugarX, botonJugarY - 70);
 				
 				// ===============
 				if(Gdx.input.isTouched() || entrada.pressedEnter){
@@ -128,9 +128,9 @@ public class MenuPrincipal implements Screen {
 			}
 			
 			if(!marcadoSalir) {
-				Utiles.batch.draw(botonSalirTex, botonJugarX, botonJugarY - (70 * 2));
+				UtilHerramientas.batch.draw(botonSalirTex, botonJugarX, botonJugarY - (70 * 2));
 			}else {
-				Utiles.batch.draw(botonSalirMarTex, botonJugarX, botonJugarY - (70 * 2));
+				UtilHerramientas.batch.draw(botonSalirMarTex, botonJugarX, botonJugarY - (70 * 2));
 				// ===============
 				if(Gdx.input.isTouched() || entrada.pressedEnter){
 					this.dispose();
@@ -140,7 +140,7 @@ public class MenuPrincipal implements Screen {
 				// ===============
 			}
 
-		Utiles.batch.end();
+		UtilHerramientas.batch.end();
 		
 	}
 	
