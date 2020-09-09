@@ -1,14 +1,15 @@
 package pantallas;
 
 import com.badlogic.gdx.Screen;
-import gestorMapas.Mapa;
+
 import juego.TwilightOfDarknessPrincipal;
+import mapas.gestorMapas.Mapa;
 import personajes.PersonajePrincipal;
 import utilidades.Entrada;
 import utilidades.Hud;
 import utilidades.Recursos;
 import utilidades.Render;
-import utilidades.UtilHerramientas;
+import utilidades.Utiles;
 
 public class PantallaPrincipal implements Screen {
 	
@@ -37,7 +38,7 @@ public class PantallaPrincipal implements Screen {
 		actualizar();
 		
 		Render.limpiarPantalla();
-		UtilHerramientas.sr.setProjectionMatrix(mapa.getCamara().combined);
+		Utiles.sr.setProjectionMatrix(mapa.getCamara().combined);
 		
 		mapa.setearCamara(jugador.getPosicion().x, jugador.getPosicion().y);
 		mapa.renderizar();
@@ -102,9 +103,9 @@ public class PantallaPrincipal implements Screen {
 
 	@Override
 	public void dispose() {
-		UtilHerramientas.batch.dispose();
+		Utiles.batch.dispose();
 		mapa.dispose();
-		UtilHerramientas.sr.dispose();
+		Utiles.sr.dispose();
 	}
 
 }

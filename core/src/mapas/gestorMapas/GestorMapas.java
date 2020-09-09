@@ -1,9 +1,9 @@
-package gestorMapas;
+package mapas.gestorMapas;
 
-import dungeons.Dungeon1;
+import mapas.dungeons.Dungeon1;
+import mapas.pueblo.Pueblo;
+import mapas.pueblo.Pueblo2;
 import personajes.PersonajePrincipal;
-import pueblo.Pueblo;
-import pueblo.Pueblo2;
 
 public class GestorMapas {
 	

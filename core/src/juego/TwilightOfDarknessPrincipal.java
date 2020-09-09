@@ -3,15 +3,15 @@ package juego;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-import gestorMapas.GestorMapas;
-import gestorMapas.Mapa;
+import mapas.gestorMapas.GestorMapas;
+import mapas.gestorMapas.Mapa;
 import pantallas.CargadorPantallas;
 import pantallas.MenuOpciones;
 import pantallas.MenuPrincipal;
 import pantallas.PantallaPrincipal;
 import personajes.PersonajePrincipal;
-import utilidades.Archivos;
-import utilidades.DatosJuego;
+//import utilidades.Archivos;
+//import utilidades.DatosJuego;
 import utilidades.Entrada;
 
 public class TwilightOfDarknessPrincipal extends Game {
@@ -19,12 +19,12 @@ public class TwilightOfDarknessPrincipal extends Game {
 	private Entrada entrada;
 	private PersonajePrincipal jugador;
 	private GestorMapas gestorMapas;
-	public Archivos archivos;
-	private DatosJuego datosJuego;
+	//public Archivos archivos;
+	//private DatosJuego datosJuego;
 	
 	@Override
 	public void create() {
-		datosJuego = new DatosJuego(this);
+		//datosJuego = new DatosJuego(this);
 		//archivos = new Archivos(datosJuego);
 		//archivos.cargarPartida();
 		gestorMapas = new GestorMapas();

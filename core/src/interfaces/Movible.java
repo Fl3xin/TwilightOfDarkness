@@ -1,6 +1,6 @@
 package interfaces;
 
-import gestorMapas.Mapa;
+import mapas.gestorMapas.Mapa;
 import personajes.PersonajePrincipal;
 
 public interface Movible {

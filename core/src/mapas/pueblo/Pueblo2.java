@@ -1,4 +1,4 @@
-package pueblo;
+package mapas.pueblo;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -14,20 +14,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import gestorMapas.GestorMapas;
-import gestorMapas.Mapa;
+import mapas.gestorMapas.GestorMapas;
+import mapas.gestorMapas.Mapa;
 import personajes.Entidad;
 import personajes.PersonajePrincipal;
-import utilidades.Recursos;
 import utilidades.Utiles;
 
-public class Pueblo extends Mapa{
-	
+public class Pueblo2 extends Mapa{
+
 	private Array<Rectangle> rectColision;
 	private Array<Polygon> poliColision;
 	private Array<Rectangle> zonasCambioMapa;
 	private Array<MapProperties> propiedadObjeto;
-	private Rectangle limiteMapa;
+	private Rectangle limiteMapaRect;
 	
 	private TiledMapTileLayer capaSuelo;
 	private TiledMapTileLayer capaCasas;
@@ -39,52 +38,48 @@ public class Pueblo extends Mapa{
 	
 	private boolean cambiarMapa;
 	
-	public Pueblo(PersonajePrincipal jugador, GestorMapas gestorMapas) {
+	public Pueblo2(PersonajePrincipal jugador, GestorMapas gestorMapas) {
 		super(jugador, gestorMapas);
-		posicionJugadorSpawnInferior = new Vector2(915, 210);
-		posicionJugadorSpawnSuperior = new Vector2(915, 500);
-		jugador.setPosicion(Recursos.posJugadorX, Recursos.posJugadorY);
+		posicionJugadorSpawnInferior = new Vector2(35,200);
+		posicionJugadorSpawnSuperior = new Vector2(35,520);
 	}
 	
 	public void crear() {
-	
-		mapa = cargadorMapa.load("mapas/pueblo/Pueblo_1.tmx");
+		
+		mapa = cargadorMapa.load("mapas/pueblo/Pueblo_2.tmx");
 		crearCapas();
 		renderer = new OrthogonalTiledMapRenderer(mapa);
-		camara.update(); //Probar eliminacion
-		
+		camara.update();
+	
 	}
 
 	public void crearCapas() {
-		//Obtiene las capas del mapa
 		capaSuelo = (TiledMapTileLayer) mapa.getLayers().get("suelo");
-		capaCasas = (TiledMapTileLayer) mapa.getLayers().get("casa");
-		capa2 = (TiledMapTileLayer) mapa.getLayers().get("capa2");
 		capaDecoracion = (TiledMapTileLayer) mapa.getLayers().get("decoracion");
+		capaCasas = (TiledMapTileLayer) mapa.getLayers().get("casas");
+		capa2 = (TiledMapTileLayer) mapa.getLayers().get("capa2");
 		
-		//Obtiene los objetos de las distintas capas
-		MapObjects capaSuelo = mapa.getLayers().get("pisoObj").getObjects();
-		MapObjects capaPoligonos = mapa.getLayers().get("colisionablesPoli").getObjects();
-		MapObjects objetosMapa = mapa.getLayers().get("colisionables").getObjects();
+		MapObjects limiteMapa = mapa.getLayers().get("pisoObj").getObjects();
+		MapObjects colisionables = mapa.getLayers().get("colisionables").getObjects();
+		MapObjects colisionablesPoli = mapa.getLayers().get("colisionablesPoli").getObjects();
 		MapObjects cambioMapa = mapa.getLayers().get("cambioMapa").getObjects();
 		
-		RectangleMapObject rectPiso = (RectangleMapObject) capaSuelo.get(0);
-		limiteMapa = rectPiso.getRectangle();
+		RectangleMapObject rectSuelo = (RectangleMapObject) limiteMapa.get(0);
+		limiteMapaRect = rectSuelo.getRectangle();
 		
-		//Creacion de arrays para colisiones
 		rectColision = new Array<Rectangle>();
 		poliColision = new Array<Polygon>();
 		zonasCambioMapa = new Array<Rectangle>();
 		propiedadObjeto = new Array<MapProperties>();
 		
-		for(int i = 0 ; i < objetosMapa.getCount() ; i++) {
-			RectangleMapObject rectObj = (RectangleMapObject) objetosMapa.get(i);
+		for(int i = 0 ; i < colisionables.getCount() ; i++) {
+			RectangleMapObject rectObj = (RectangleMapObject) colisionables.get(i);
 			Rectangle rect = rectObj.getRectangle();
 			rectColision.add(new Rectangle(rect.x, rect.y, rect.width, rect.height));
 		}
 		
-		for (int i = 0; i < capaPoligonos.getCount(); i++) {
-			PolygonMapObject poliObj = (PolygonMapObject) capaPoligonos.get(i);
+		for (int i = 0; i < colisionablesPoli.getCount(); i++) {
+			PolygonMapObject poliObj = (PolygonMapObject) colisionablesPoli.get(i);
 			Polygon poli = poliObj.getPolygon();
 			poliColision.add(new Polygon(poli.getTransformedVertices()));
 		}
@@ -99,10 +94,10 @@ public class Pueblo extends Mapa{
 
 	public void setPosicionJugador() {
 		System.out.println("Mapa indicador: "+Utiles.mapaIndicadorPos);
-		if(Utiles.mapaIndicadorPos == 3) {
+		if(Utiles.mapaIndicadorPos == 1) {
 			jugador.setPosicion(posicionJugadorSpawnInferior.x, posicionJugadorSpawnInferior.y);
 		}
-		if(Utiles.mapaIndicadorPos == 4) {
+		if(Utiles.mapaIndicadorPos == 2) {
 			jugador.setPosicion(posicionJugadorSpawnSuperior.x, posicionJugadorSpawnSuperior.y);
 		}
 	}
@@ -112,7 +107,6 @@ public class Pueblo extends Mapa{
 		renderizarSuelo();
 		renderizarDeco();
 		jugador.movimiento();
-		//zoom(entrada.zoom);
 		renderizarCasas();
 		renderizarCapa2();
 		
@@ -123,7 +117,7 @@ public class Pueblo extends Mapa{
 		renderer.renderTileLayer(capaSuelo);
 		renderer.getBatch().end();
 	}
-	
+
 	public void renderizarCasas() {
 		renderer.getBatch().begin();
 		renderer.renderTileLayer(capaCasas);
@@ -143,12 +137,14 @@ public class Pueblo extends Mapa{
 	}
 	
 	public void mostrarColisiones() {
-		
 		Utiles.sr.begin(ShapeType.Line);
+		
+			Utiles.sr.setColor(Color.GREEN);
+			Utiles.sr.rect(jugador.getRectangulo().x, jugador.getRectangulo().y, jugador.getRectangulo().getWidth(), jugador.getRectangulo().getHeight());
 			
 			Utiles.sr.setColor(Color.BLUE);
 			Utiles.sr.rect(0,0,getLimiteMapa().getWidth(), getLimiteMapa().getHeight());
-				
+			
 			for(int i = 0 ; i < getRectColision().size ; i++) {
 				Utiles.sr.rect(getRectColision().get(i).getX(), getRectColision().get(i).getY(), getRectColision().get(i).getWidth(), getRectColision().get(i).getHeight());
 			}
@@ -158,13 +154,12 @@ public class Pueblo extends Mapa{
 			for (int i = 0; i < getZonasCambioMapa().size; i++) {
 				Utiles.sr.rect(getZonasCambioMapa().get(i).getX(), getZonasCambioMapa().get(i).getY(), getZonasCambioMapa().get(i).getWidth(), getZonasCambioMapa().get(i).getHeight());
 			}
-				
+			
 		Utiles.sr.end();
-		
-		
 	}
 	
-	public boolean comprobarColision(Entidad entidad){
+	public boolean comprobarColision(Entidad entidad) {
+		
 		boolean colision = false;
 		for(int i = 0 ; i < rectColision.size ; i++) {
 			
@@ -174,76 +169,61 @@ public class Pueblo extends Mapa{
 			}
 			
 		}
-//		for (int i = 0; i < poliColision.size; i++) {
-//			if(poliColision.get(i).contains(entidad.getRectangulo().getX(), entidad.getRectangulo().getY()) || //Obtiene la esquina inferior izquierda del jugador
-//			   poliColision.get(i).contains(entidad.getRectangulo().getX(), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight()) || //Obtiene la esquina superior izquierda
-//			   poliColision.get(i).contains(entidad.getRectangulo().getX()+entidad.getRectangulo().getWidth(),entidad.getRectangulo().getY()) || //Obtiene la esquina inferior derecha
-//			   poliColision.get(i).contains(entidad.getRectangulo().getX()+entidad.getRectangulo().getWidth(), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight()) || //Obtiene la esquina superrior derecha
-//			   poliColision.get(i).contains(entidad.getRectangulo().getX()+(entidad.getRectangulo().getWidth()/2), entidad.getRectangulo().getY()) || //Obtiene el punto medio de la base del rectangulo
-//			   poliColision.get(i).contains(entidad.getRectangulo().getX()+(entidad.getRectangulo().getWidth()/2), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight())) {
-//				System.out.println("Colision poligono");
-//			}
-//		}
-//		
-		if(!limiteMapa.contains(entidad.getRectangulo())) {
+		for (int i = 0; i < poliColision.size; i++) {
+			if(poliColision.get(i).contains(entidad.getRectangulo().getX(), entidad.getRectangulo().getY()) ||
+			   poliColision.get(i).contains(entidad.getRectangulo().getX(), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight()) ||
+			   poliColision.get(i).contains(entidad.getRectangulo().getX()+entidad.getRectangulo().getWidth(),entidad.getRectangulo().getY()) ||
+			   poliColision.get(i).contains(entidad.getRectangulo().getX()+entidad.getRectangulo().getWidth(), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight()) ||
+			   poliColision.get(i).contains(entidad.getRectangulo().getX()+(entidad.getRectangulo().getWidth()/2), entidad.getRectangulo().getY()) ||
+			   poliColision.get(i).contains(entidad.getRectangulo().getX()+(entidad.getRectangulo().getWidth()/2), entidad.getRectangulo().getY()+entidad.getRectangulo().getHeight())) {
+				System.out.println("Colision poligono");
+			}
+		}
+		
+		if(limiteMapaRect.contains(entidad.getRectangulo())) {
+			//Todo bien
+		}else {
 			System.out.println("Fuera del mapa");
 			colision = true;
 		}
-		
 		return colision;
+		
 	}
 	
 	public boolean comprobarSalidaMapa() {
 		cambiarMapa = false;
-		int i = 0;
-		 do {
-			if(Intersector.overlaps(jugador.getRectangulo(), zonasCambioMapa.get(i))) {
-				if(propiedadObjeto.get(i).containsKey("caminoInferior")) {
-					System.out.println("Cambio mapa inferior");
-					Utiles.mapaIndicadorPos = 1; //TODO cambiar la variable a la clase padre Mapa
-					cambiarMapa = true;
-					break;
-				}
-				else if(propiedadObjeto.get(i).containsKey("caminoSuperior")) {
-					System.out.println("Cambio mapa superior");
-					Utiles.mapaIndicadorPos = 2; //TODO cambiar la variable a la clase padre Mapa
-					cambiarMapa = true;
-					break;
-				}
-			}
-			i++;
-		} while(i < zonasCambioMapa.size);
 		
-//		if(Intersector.overlaps(jugador.getRectangulo(), zonasCambioMapa.get(1)) && propiedadObjeto.get(1).containsKey("caminoInferior") ) {
-//			System.out.println("Cambio mapa inferior");
-//			Utiles.mapaIndicadorPos = 1;
-//			cambiarMapa = true;
-//		}else if(Intersector.overlaps(jugador.getRectangulo(), zonasCambioMapa.get(0)) && propiedadObjeto.get(0).containsKey("caminoSuperior")) {
-//			System.out.println("Cambio mapa superior");
-//			Utiles.mapaIndicadorPos = 2;
-//			cambiarMapa = true;
-//		}
-//		else {
-//			cambiarMapa = false;
-//		}
+			
+		if(Intersector.overlaps(jugador.getRectangulo(), zonasCambioMapa.get(1)) && propiedadObjeto.get(1).containsKey("caminoInferior") ) {
+			System.out.println("Cambio mapa inferior");
+			Utiles.mapaIndicadorPos = 3;
+			cambiarMapa = true;
+		}else if(Intersector.overlaps(jugador.getRectangulo(), zonasCambioMapa.get(0)) && propiedadObjeto.get(0).containsKey("caminoSuperior")) {
+			System.out.println("Cambio mapa superior");
+			Utiles.mapaIndicadorPos = 4;
+			cambiarMapa = true;
+		}
+		else {
+			cambiarMapa = false;
+		}
 			
 		
-		
+			
 		return cambiarMapa;
 	}
 	
 	public Mapa cambioMapa() {
 		if(cambiarMapa) {
-			return gestorMapas.getMapaPueblo2();
-		}else {
 			return gestorMapas.getMapaPueblo();
+		}else {
+			return gestorMapas.getMapaPueblo2();
 		}
 	}
-	
+
 	public Array<Rectangle> getRectColision() {
 		return rectColision;
 	}
-	
+
 	public Array<Polygon> getPoliColision() {
 		return poliColision;
 	}
@@ -251,9 +231,9 @@ public class Pueblo extends Mapa{
 	public Array<Rectangle> getZonasCambioMapa() {
 		return zonasCambioMapa;
 	}
-	
+
 	public Rectangle getLimiteMapa() {
-		return limiteMapa;
+		return limiteMapaRect;
 	}
 	
 }

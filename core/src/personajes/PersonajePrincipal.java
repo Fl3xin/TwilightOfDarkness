@@ -9,16 +9,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import enemigos.Enemigo;
-import gestorMapas.Mapa;
+import mapas.gestorMapas.Mapa;
 import utilidades.Entrada;
-import utilidades.UtilHerramientas;
+import utilidades.Utiles;
 
 public class PersonajePrincipal extends Entidad {
 
-	private float vidaMaxima = 100;
+	private final float vidaMaxima = 100;
 	private float vidaActual = vidaMaxima;
 	private boolean corriendo = false;
-	private int staminaMax = 300;
+	private final int staminaMax = 300;
 	private int stamina = staminaMax;
 	private final int VELOCIDAD_NORMAL = 1, VELOCIDAD_CORRIENDO = 2;
 	private final int FILAS = 4, COLUMNAS = 6;
@@ -28,22 +28,22 @@ public class PersonajePrincipal extends Entidad {
 	private boolean enMovimiento = false, enColision = false;
 	private int posicionFinal = 0;
 	private int direccion = 0;
-	private Rectangle rectanguloJugador;
-	private int correccionAlto = 72, correccionAncho = 223; //Es posible calcularlo?
+	private final Rectangle rectanguloJugador;
+	private final int correccionAlto = 72, correccionAncho = 223; //Es posible calcularlo?
 //	private int posicionJugadorTileX = (int)(posicion.x/ Recursos.ANCHO_TILE);
 //	private int posicionJugadorTileY = (int)(posicion.y/ Recursos.ALTO_TILE);
-	private int reducciondanio = 45;
-	private int danio = 20;
+	private final int reducciondanio = 45;
+	private final int danio = 20;
 
 	public PersonajePrincipal() {
-		super(UtilHerramientas.heroeAbajoSprite);
+		super(Utiles.heroeAbajoSprite);
 		crearAnimaciones();
 		rectanguloJugador = new Rectangle(getBoundingRectangle());
 	}
 	
-	public void dibujar(Texture textura) {
+	public void dibujar(final Texture textura) {
 		this.setTexture(textura);
-		this.draw(UtilHerramientas.batch);
+		this.draw(Utiles.batch);
 		
 		this.setX(this.posicion.x);
 		this.setY(this.posicion.y);
@@ -52,30 +52,30 @@ public class PersonajePrincipal extends Entidad {
 		
 	}
 	
-	public void dibujar(TextureRegion tr) {
-		UtilHerramientas.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
+	public void dibujar(final TextureRegion tr) {
+		Utiles.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
 		rectanguloJugador.set(posicion.x, posicion.y, getWidth(), getHeight()/2);
 	}
 	
-	public void recibirdanio(float cantidad) {
+	public void recibirdanio(final float cantidad) {
 		this.vidaActual-=(cantidad/reducciondanio);
 		if(this.vidaActual < 0) {
 			vidaActual = 0;
 		}
 	}
 	
-	public void hacerdanio(Enemigo enemigo) {
+	public void hacerdanio(final Enemigo enemigo) {
 		enemigo.recibirdanio(danio);    //TODO Hacerlo funcionar!
 	}
 	
 	public void crearAnimacion() {
 		
-		Texture heroeAnimacion = new Texture("personajes/heroe/heroeSheet.png");
-		TextureRegion[][] tmp = TextureRegion.split(heroeAnimacion, (heroeAnimacion.getWidth()-correccionAncho)/COLUMNAS, (heroeAnimacion.getHeight()-correccionAlto)/FILAS);
-		TextureRegion[] walkFramesDerecha = new TextureRegion[COLUMNAS];
-		TextureRegion[] walkFramesIzquierda = new TextureRegion[COLUMNAS];
-		TextureRegion[] walkFramesArriba = new TextureRegion[COLUMNAS];
-		TextureRegion[] walkFramesAbajo = new TextureRegion[COLUMNAS];
+		final Texture heroeAnimacion = new Texture("personajes/heroe/heroeSheet.png");
+		final TextureRegion[][] tmp = TextureRegion.split(heroeAnimacion, (heroeAnimacion.getWidth()-correccionAncho)/COLUMNAS, (heroeAnimacion.getHeight()-correccionAlto)/FILAS);
+		final TextureRegion[] walkFramesDerecha = new TextureRegion[COLUMNAS];
+		final TextureRegion[] walkFramesIzquierda = new TextureRegion[COLUMNAS];
+		final TextureRegion[] walkFramesArriba = new TextureRegion[COLUMNAS];
+		final TextureRegion[] walkFramesAbajo = new TextureRegion[COLUMNAS];
 		
 		int index = 0;
 		
@@ -105,7 +105,7 @@ public class PersonajePrincipal extends Entidad {
 	}
 	
 	TextureRegion frameActual;
-	public void animar(boolean animar) {
+	public void animar(final boolean animar) {
 		if(animar) {
 			tiempoAni += Gdx.graphics.getDeltaTime();
 			frameActual = animacionActual.getKeyFrame(tiempoAni, true);
@@ -117,9 +117,9 @@ public class PersonajePrincipal extends Entidad {
 		crearAnimacion();
 	}
 	
-	public void controlarMovimiento(Entrada entrada, Mapa mapa) {
+	public void controlarMovimiento(final Entrada entrada, final Mapa mapa) {
 		
-		float oldX = posicion.x, oldY = posicion.y;
+		final float oldX = posicion.x, oldY = posicion.y;
 		float newX = posicion.x, newY = posicion.y;
 		enMovimiento = false;
 	
@@ -229,7 +229,7 @@ public class PersonajePrincipal extends Entidad {
 	
 	public void movimiento() {
 		
-		UtilHerramientas.batch.begin();
+		Utiles.batch.begin();
 		if(isEnMovimiento()) {
 			
 			if(getDireccionJugador() == 1) {
@@ -252,36 +252,36 @@ public class PersonajePrincipal extends Entidad {
 		else {
 //			animar(false);
 			if(getPosicionFinal() == 0) {
-				dibujar(UtilHerramientas.heroeAbajo);
+				dibujar(Utiles.heroeAbajo);
 			}
 			if(getPosicionFinal() == 1) {
-				dibujar(UtilHerramientas.heroeArriba);
+				dibujar(Utiles.heroeArriba);
 			}
 			if(getPosicionFinal() == 2) {
-				dibujar(UtilHerramientas.heroeDerecha);
+				dibujar(Utiles.heroeDerecha);
 			}
 			if(getPosicionFinal() == 3) {
-				dibujar(UtilHerramientas.heroeIzquierda);
+				dibujar(Utiles.heroeIzquierda);
 			}
 			if(getPosicionFinal() == 4) {
-				dibujar(UtilHerramientas.heroeAbajo);
+				dibujar(Utiles.heroeAbajo);
 			}
 			
 		}
 		
-	UtilHerramientas.batch.end();
+	Utiles.batch.end();
 		
 	}
 	
 	public void mostrarColisiones() {
-		UtilHerramientas.sr.setAutoShapeType(true);
-		UtilHerramientas.sr.begin();
+		Utiles.sr.setAutoShapeType(true);
+		Utiles.sr.begin();
 		
-			UtilHerramientas.sr.set(ShapeType.Line);
-			UtilHerramientas.sr.setColor(Color.GREEN);
-			UtilHerramientas.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().getWidth(), getRectangulo().getHeight());
+			Utiles.sr.set(ShapeType.Line);
+			Utiles.sr.setColor(Color.GREEN);
+			Utiles.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().getWidth(), getRectangulo().getHeight());
 
-		UtilHerramientas.sr.end();
+		Utiles.sr.end();
 	}
 	
 	public float getVidaActual() {
@@ -300,7 +300,7 @@ public class PersonajePrincipal extends Entidad {
 		return posicionFinal;
 	}
 	
-	public void setPosicionFinal(int posicionFinal) {
+	public void setPosicionFinal(final int posicionFinal) {
 		this.posicionFinal = posicionFinal;
 	}
 	
@@ -312,7 +312,7 @@ public class PersonajePrincipal extends Entidad {
 		return enColision;
 	}
 	
-	public void setEnColision(boolean enColision) {
+	public void setEnColision(final boolean enColision) {
 		this.enColision = enColision;
 	}
 	

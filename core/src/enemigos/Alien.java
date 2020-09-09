@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
-import gestorMapas.Mapa;
 import interfaces.Movible;
+import mapas.gestorMapas.Mapa;
 import personajes.PersonajePrincipal;
-import utilidades.UtilHerramientas;
+import utilidades.Utiles;
 
 public class Alien extends Enemigo implements Movible{
 
@@ -29,7 +29,7 @@ public class Alien extends Enemigo implements Movible{
 	private int danio = 10;
 	
 	public Alien() {
-		super(UtilHerramientas.alienAbajoSprite);
+		super(Utiles.alienAbajoSprite);
 		rectanguloAlien = new Rectangle(getBoundingRectangle());
 		circuloAlien = new Circle(this.posicion.x, this.posicion.y, 150);
 		crearAnimacion();
@@ -41,7 +41,7 @@ public class Alien extends Enemigo implements Movible{
 	public void dibujar(Texture textura) {
 		
 		this.setTexture(textura);
-		this.draw(UtilHerramientas.batch);
+		this.draw(Utiles.batch);
 		
 		this.setX(this.posicion.x);
 		this.setY(this.posicion.y);
@@ -52,21 +52,21 @@ public class Alien extends Enemigo implements Movible{
 		
 		int anchoVida = (vida*100)/vidaMax;
 		
-		UtilHerramientas.sr.setAutoShapeType(true);
-		UtilHerramientas.sr.begin();
-			UtilHerramientas.sr.set(ShapeType.Line);
-			UtilHerramientas.sr.setColor(Color.BLACK);
-			UtilHerramientas.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), 100*0.5f, 10);
+		Utiles.sr.setAutoShapeType(true);
+		Utiles.sr.begin();
+			Utiles.sr.set(ShapeType.Line);
+			Utiles.sr.setColor(Color.BLACK);
+			Utiles.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), 100*0.5f, 10);
 			
-			UtilHerramientas.sr.set(ShapeType.Filled);
-			UtilHerramientas.sr.setColor(Color.GREEN);
-			UtilHerramientas.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), anchoVida*0.5f, 10);
-		UtilHerramientas.sr.end();
+			Utiles.sr.set(ShapeType.Filled);
+			Utiles.sr.setColor(Color.GREEN);
+			Utiles.sr.rect(getPosicion().x - 10, getPosicion().y + getHeight(), anchoVida*0.5f, 10);
+		Utiles.sr.end();
 	}
 	
 	@Override
 	public void dibujar(TextureRegion tr) {
-		UtilHerramientas.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
+		Utiles.batch.draw(tr, posicion.x, posicion.y, tr.getRegionWidth(), tr.getRegionHeight());
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class Alien extends Enemigo implements Movible{
 	}
 	
 	public void movimiento() {
-		UtilHerramientas.batch.begin();
+		Utiles.batch.begin();
 		if(enMovimiento || atacando) {
 			animar(true);
 			System.out.println("Direccion alien: "+direccionAlien);
@@ -161,22 +161,22 @@ public class Alien extends Enemigo implements Movible{
 		}else if(!enMovimiento && !atacando){
 			animar(false);
 			if(posicionFinal.equals("")) {
-				dibujar(UtilHerramientas.alienAbajo);
+				dibujar(Utiles.alienAbajo);
 			}
 			if(posicionFinal.equals("izquierda")) {
-				dibujar(UtilHerramientas.alienIzquierda);
+				dibujar(Utiles.alienIzquierda);
 			}
 			if(posicionFinal.equals("abajo")) {
-				dibujar(UtilHerramientas.alienAbajo);
+				dibujar(Utiles.alienAbajo);
 			}
 			if(posicionFinal.equals("derecha")) {
-				dibujar(UtilHerramientas.alienDerecha);
+				dibujar(Utiles.alienDerecha);
 			}
 			if(posicionFinal.equals("arriba")) {
-				dibujar(UtilHerramientas.alienArriba);
+				dibujar(Utiles.alienArriba);
 			}
 		}
-		UtilHerramientas.batch.end();
+		Utiles.batch.end();
 	}
 	
 	public void comportamiento(PersonajePrincipal jugador, Mapa mapa) {
@@ -284,8 +284,8 @@ public class Alien extends Enemigo implements Movible{
 	}
 
 	public void mostrarColisiones() {
-		UtilHerramientas.sr.circle(getCirculoAlien().x + (getWidth()/2), getCirculoAlien().y + (getHeight()/2), getCirculoAlien().radius);
-		UtilHerramientas.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().width, getRectangulo().height);
+		Utiles.sr.circle(getCirculoAlien().x + (getWidth()/2), getCirculoAlien().y + (getHeight()/2), getCirculoAlien().radius);
+		Utiles.sr.rect(getRectangulo().x, getRectangulo().y, getRectangulo().width, getRectangulo().height);
 	}
 	
 	public Circle getCirculoAlien() {

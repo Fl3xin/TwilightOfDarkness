@@ -1,4 +1,4 @@
-package dungeons;
+package mapas.dungeons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -11,9 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 import enemigos.Alien;
-import enemigos.Enemigo;
-import gestorMapas.GestorMapas;
-import gestorMapas.Mapa;
+import mapas.gestorMapas.GestorMapas;
+import mapas.gestorMapas.Mapa;
 import personajes.Entidad;
 import personajes.PersonajePrincipal;
 import utilidades.Utiles;
